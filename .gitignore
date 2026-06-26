@@ -1,0 +1,46 @@
+# ========================
+# Python cache
+# ========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ========================
+# Virtual environment
+# ========================
+.venv/
+venv/
+
+# ========================
+# Database (local only)
+# ========================
+database/startup.db
+
+# ========================
+# Datasets (NOT for GitHub)
+# ========================
+dataset/
+
+# ========================
+# ML training files (NOT needed in deployment)
+# ========================
+model/preprocess.py
+model/train_model.py
+test_model.py
+
+# ========================
+# Logs / runtime files
+# ========================
+*.log
+flask.pid
+flask.err.log
+flask.log
+
+# ========================
+# OS / system files
+# ========================
+.DS_Store
+Thumbs.db
+# Large ML model file
+model/model.pkl

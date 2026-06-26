@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Predict your startup's success using Artificial Intelligence and Machine Learning." />
+  <meta name="theme-color" content="#4F46E5" />
+  <title>Startup Insight — AI-Powered Startup Success Predictor</title>
+<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">  <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}" />
+<link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"><body>
+</head>
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container nav-inner">
+    <a href="{{ url_for('index') }}" class="nav-logo" aria-label="Startup Insight home">
+      <div class="logo-icon" aria-hidden="true">🚀</div>
+      <span>Startup<span class="gradient-text">Insight</span></span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+      <li><a href="{{ url_for('predict') }}">Predict</a></li>
+      <li><a href="{{ url_for('result') }}">Results</a></li>
+      <li><a href="{{ url_for('history') }}">History</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Toggle theme">☀️</button>
+      <a href="{{ url_for('predict') }}" class="btn btn-primary btn-sm" style="display:none" id="nav-cta">Start Prediction</a>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<nav class="nav-mobile" aria-label="Mobile navigation">
+  <a href="{{ url_for('index') }}" class="active">🏠 Home</a>
+  <a href="{{ url_for('predict') }}">🔮 Predict</a>
+  <a href="{{ url_for('result') }}">📊 Results</a>
+  <a href="{{ url_for('history') }}">📜 History</a>
+</nav>
+
+<main>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" aria-label="Hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+  <div class="container hero-inner">
+    <!-- Left: Copy -->
+    <div class="hero-content">
+      <div class="hero-badge fade-in">
+        <span>AI-Powered Analytics</span>
+      </div>
+
+      <h1 class="hero-title fade-up" style="animation-delay:0.1s">
+        Predict Your<br>
+        <span class="gradient-text">Startup's Success</span>
+      </h1>
+
+      <p class="hero-desc fade-up" style="animation-delay:0.2s">
+        Harness the power of Artificial Intelligence and Machine Learning to evaluate
+        your startup's potential, identify risks, and chart a path to growth.
+      </p>
+
+      <div class="hero-cta fade-up" style="animation-delay:0.3s">
+        <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg">
+          <span>🔮</span> Start Prediction
+        </a>
+        <a href="#features" class="btn btn-secondary btn-lg">
+          Explore Features
+        </a>
+      </div>
+
+      <div class="hero-stats fade-up" style="animation-delay:0.4s">
+        <div class="stat-item">
+          <span class="stat-value" data-count="12400" data-suffix="+">0</span>
+          <span class="stat-label">Startups Analyzed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" data-count="94" data-suffix="%">0</span>
+          <span class="stat-label">Accuracy Rate</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" data-count="38" data-suffix="+">0</span>
+          <span class="stat-label">Industries</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Animated illustration -->
+    <div class="hero-visual fade-in" style="animation-delay:0.2s">
+      <div class="illustration-wrapper">
+        <div class="illustration-card">
+          <div class="illustration-header">
+            <div class="ai-brain-icon" aria-hidden="true">🧠</div>
+            <div>
+              <div class="illustration-title">AI Prediction Engine</div>
+              <div class="illustration-sub">Processing 47 signals…</div>
+            </div>
+          </div>
+
+          <!-- Mini animated bar chart -->
+          <div class="mini-chart" aria-hidden="true">
+            <div class="mini-bar" style="height:40%;--dur:0.8s;--del:0s"></div>
+            <div class="mini-bar" style="height:65%;--dur:0.9s;--del:0.1s"></div>
+            <div class="mini-bar" style="height:50%;--dur:1s;--del:0.2s"></div>
+            <div class="mini-bar" style="height:80%;--dur:0.85s;--del:0.15s"></div>
+            <div class="mini-bar" style="height:55%;--dur:0.95s;--del:0.25s"></div>
+            <div class="mini-bar" style="height:90%;--dur:0.9s;--del:0.1s"></div>
+            <div class="mini-bar" style="height:70%;--dur:1.05s;--del:0.3s"></div>
+          </div>
+
+          <div class="result-row">
+            <span class="result-label">Success Probability</span>
+            <span class="result-value">89%</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Risk Level</span>
+            <span class="result-value" style="color:var(--warning)">Low</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Confidence Score</span>
+            <span class="result-value">92%</span>
+          </div>
+        </div>
+
+        <!-- Floating badges -->
+        <div class="float-badge float-badge-1" aria-hidden="true">✅ Success Predicted</div>
+        <div class="float-badge float-badge-2" aria-hidden="true">📈 +47% Growth</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FEATURES ===================== -->
+<section class="section" id="features" aria-labelledby="features-title">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="section-eyebrow">What We Offer</span>
+      <h2 class="section-title" id="features-title">Intelligence That <span class="gradient-text">Works for You</span></h2>
+      <p class="section-desc">Our platform combines cutting-edge ML models with real-world startup data to deliver insights that matter.</p>
+    </div>
+
+    <div class="features-grid">
+      <article class="feature-card glass-card" data-reveal>
+        <div class="feature-icon" aria-hidden="true">🤖</div>
+        <h3 class="feature-title">AI Prediction</h3>
+        <p class="feature-desc">Our neural models trained on thousands of startup outcomes give you a clear success probability score.</p>
+      </article>
+
+      <article class="feature-card glass-card" data-reveal>
+        <div class="feature-icon" aria-hidden="true">📊</div>
+        <h3 class="feature-title">Data Analysis</h3>
+        <p class="feature-desc">Deep-dive analytics across funding, revenue, burn rate, and market size to surface hidden patterns.</p>
+      </article>
+
+      <article class="feature-card glass-card" data-reveal>
+        <div class="feature-icon" aria-hidden="true">🎯</div>
+        <h3 class="feature-title">Success Probability</h3>
+        <p class="feature-desc">A single, honest probability score with confidence intervals — so you know exactly where you stand.</p>
+      </article>
+
+      <article class="feature-card glass-card" data-reveal>
+        <div class="feature-icon" aria-hidden="true">💡</div>
+        <h3 class="feature-title">Personalized Insights</h3>
+        <p class="feature-desc">Tailored strengths, weaknesses, and actionable suggestions specific to your startup's profile.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STATS ===================== -->
+<section class="section-sm" aria-label="Statistics">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card glass-card" data-reveal>
+        <span class="stat-card-value" data-count="12400" data-suffix="+">0+</span>
+        <span class="stat-card-label">Predictions Made</span>
+      </div>
+      <div class="stat-card glass-card" data-reveal>
+        <span class="stat-card-value" data-count="94" data-suffix="%">0%</span>
+        <span class="stat-card-label">Model Accuracy</span>
+      </div>
+      <div class="stat-card glass-card" data-reveal>
+        <span class="stat-card-value" data-count="38" data-suffix="">0</span>
+        <span class="stat-card-label">Industries Covered</span>
+      </div>
+      <div class="stat-card glass-card" data-reveal>
+        <span class="stat-card-value" data-count="99" data-suffix="%">0%</span>
+        <span class="stat-card-label">Uptime SLA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HOW IT WORKS ===================== -->
+<section class="section" aria-labelledby="how-title">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="section-eyebrow">The Process</span>
+      <h2 class="section-title" id="how-title">How <span class="gradient-text">It Works</span></h2>
+    </div>
+
+    <div class="features-grid">
+      <article class="feature-card glass-card" data-reveal style="position:relative">
+        <div style="position:absolute;top:1.5rem;right:1.5rem;font-size:2rem;opacity:0.1;font-family:var(--font-display);font-weight:700">1</div>
+        <div class="feature-icon" aria-hidden="true">📝</div>
+        <h3 class="feature-title">Enter Your Data</h3>
+        <p class="feature-desc">Fill in your startup details — funding, team size, revenue, and more.</p>
+      </article>
+
+      <article class="feature-card glass-card" data-reveal>
+        <div style="position:absolute;top:1.5rem;right:1.5rem;font-size:2rem;opacity:0.1;font-family:var(--font-display);font-weight:700">2</div>
+        <div class="feature-icon" aria-hidden="true">⚡</div>
+        <h3 class="feature-title">AI Processes</h3>
+        <p class="feature-desc">Our ML models analyze 47+ signals against historical startup outcomes in seconds.</p>
+      </article>
+
+      <article class="feature-card glass-card" data-reveal>
+        <div style="position:absolute;top:1.5rem;right:1.5rem;font-size:2rem;opacity:0.1;font-family:var(--font-display);font-weight:700">3</div>
+        <div class="feature-icon" aria-hidden="true">📈</div>
+        <h3 class="feature-title">Get Your Results</h3>
+        <p class="feature-desc">Receive a comprehensive dashboard with predictions, scores, and insights.</p>
+      </article>
+
+      <article class="feature-card glass-card" data-reveal>
+        <div style="position:absolute;top:1.5rem;right:1.5rem;font-size:2rem;opacity:0.1;font-family:var(--font-display);font-weight:700">4</div>
+        <div class="feature-icon" aria-hidden="true">🚀</div>
+        <h3 class="feature-title">Take Action</h3>
+        <p class="feature-desc">Follow AI-generated suggestions to improve your probability of success.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA BANNER ===================== -->
+<section class="section-sm" aria-label="Call to action">
+  <div class="container">
+    <div class="glass-card" style="padding:3rem 2rem;text-align:center;background:linear-gradient(135deg,rgba(79,70,229,0.15) 0%,rgba(124,58,237,0.15) 100%);border-color:rgba(79,70,229,0.25)" data-reveal>
+      <h2 style="font-size:clamp(1.5rem,4vw,2.2rem);margin-bottom:0.75rem">
+        Ready to Find Out Your <span class="gradient-text">Startup's Potential?</span>
+      </h2>
+      <p style="color:var(--text-secondary);margin-bottom:1.75rem;max-width:480px;margin-left:auto;margin-right:auto">
+        Join thousands of founders who've used Startup Insight to make smarter decisions.
+      </p>
+      <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg">
+        🔮 Run Your Free Prediction
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="{{ url_for('index') }}" class="nav-logo">
+          <div class="logo-icon" aria-hidden="true">🚀</div>
+          <span>Startup<span class="gradient-text">Insight</span></span>
+        </a>
+        <p>AI-powered startup success prediction platform built for founders who move fast.</p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Product</h4>
+        <a href="{{ url_for('predict') }}">Predict</a>
+        <a href="{{ url_for('result') }}">Results</a>
+        <a href="{{ url_for('history') }}">History</a>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">API Docs</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 StartupInsight.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- FAB -->
+<a href="{{ url_for('predict') }}" class="fab" aria-label="Start new prediction" title="Start Prediction">🔮</a>
+
+<!-- Toast container -->
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<script>window.SI_SERVICE_WORKER_URL = "{{ url_for('static', filename='service-worker.js') }}";</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>
+  // Show nav CTA after scroll
+  window.addEventListener('scroll', () => {
+    const cta = document.getElementById('nav-cta');
+    if (cta) cta.style.display = window.scrollY > 300 ? 'inline-flex' : 'none';
+  }, { passive: true });
+</script>
+</body>
+</html>

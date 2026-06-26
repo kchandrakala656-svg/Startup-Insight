@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Enter your startup details and let our AI predict your success probability." />
+  <meta name="theme-color" content="#4F46E5" />
+  <title>Run Prediction — Startup Insight</title>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">  <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}" />
+<link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"><body>
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container nav-inner">
+    <a href="{{ url_for('index') }}" class="nav-logo" aria-label="Startup Insight home">
+      <div class="logo-icon" aria-hidden="true">🚀</div>
+      <span>Startup<span class="gradient-text">Insight</span></span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('predict') }}" class="active">Predict</a></li>
+      <li><a href="{{ url_for('result') }}">Results</a></li>
+      <li><a href="{{ url_for('history') }}">History</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Toggle theme">☀️</button>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<nav class="nav-mobile" aria-label="Mobile navigation">
+  <a href="{{ url_for('index') }}">🏠 Home</a>
+  <a href="{{ url_for('predict') }}" class="active">🔮 Predict</a>
+  <a href="{{ url_for('result') }}">📊 Results</a>
+  <a href="{{ url_for('history') }}">📜 History</a>
+</nav>
+
+<main>
+
+<!-- ===================== PAGE HERO ===================== -->
+<section class="predict-hero" aria-labelledby="predict-page-title">
+  <div class="container" style="text-align:center">
+    <div class="hero-badge fade-in" style="margin:0 auto 1rem">
+      <span>AI Prediction Engine</span>
+    </div>
+    <h1 class="fade-up" style="font-size:clamp(1.8rem,5vw,2.8rem);animation-delay:0.1s" id="predict-page-title">
+      Tell Us About Your <span class="gradient-text">Startup</span>
+    </h1>
+    <p class="fade-up" style="color:var(--text-secondary);max-width:520px;margin:0.75rem auto 0;animation-delay:0.2s">
+      Fill in the details below and our AI will analyze 47+ signals to estimate your startup's success probability.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== FORM ===================== -->
+<section class="predict-form-section" aria-label="Prediction form">
+  <div class="container">
+    <div class="form-container glass-card fade-up" style="animation-delay:0.25s">
+
+      <div class="form-title-row">
+        <h2>Startup Details</h2>
+        <p>All fields marked <span style="color:var(--danger)">*</span> are required.</p>
+      </div>
+
+      <form id="predict-form" novalidate aria-label="Startup prediction form">
+
+        <div class="form-grid">
+
+          <!-- ── Startup Information ── -->
+          <div class="form-section-label">🏢 Startup Information</div>
+
+          <div class="form-group">
+            <label for="startup_name">
+              Startup Name <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              id="startup_name"
+              name="startup_name"
+              class="form-control"
+              placeholder="e.g. TechVenture AI"
+              required
+              minlength="2"
+              maxlength="80"
+              autocomplete="organization"
+            />
+            <span class="form-error" role="alert">Please enter your startup name.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="founder_name">
+              Founder Name <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              id="founder_name"
+              name="founder_name"
+              class="form-control"
+              placeholder="e.g. Jane Smith"
+              required
+              minlength="2"
+              maxlength="80"
+              autocomplete="name"
+            />
+            <span class="form-error" role="alert">Please enter the founder's name.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="industry">
+              Industry <span class="required" aria-hidden="true">*</span>
+            </label>
+            <select id="industry" name="industry" class="form-control" required>
+              <option value="" disabled selected>Select an industry…</option>
+              <option>Artificial Intelligence</option>
+              <option>FinTech</option>
+              <option>HealthTech</option>
+              <option>EdTech</option>
+              <option>E-Commerce</option>
+              <option>SaaS / B2B Software</option>
+              <option>Cybersecurity</option>
+              <option>CleanTech / Green Energy</option>
+              <option>AgriTech</option>
+              <option>LegalTech</option>
+              <option>PropTech / Real Estate</option>
+              <option>Media & Entertainment</option>
+              <option>Logistics & Supply Chain</option>
+              <option>Biotech / Life Sciences</option>
+              <option>Gaming</option>
+              <option>Other</option>
+            </select>
+            <span class="form-error" role="alert">Please select an industry.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="country">
+              Country <span class="required" aria-hidden="true">*</span>
+            </label>
+            <select id="country" name="country" class="form-control" required>
+              <option value="" disabled selected>Select a country…</option>
+              <option>United States</option>
+              <option>United Kingdom</option>
+              <option>Germany</option>
+              <option>France</option>
+              <option>India</option>
+              <option>China</option>
+              <option>Canada</option>
+              <option>Australia</option>
+              <option>Singapore</option>
+              <option>Brazil</option>
+              <option>Israel</option>
+              <option>Netherlands</option>
+              <option>Sweden</option>
+              <option>Japan</option>
+              <option>South Korea</option>
+              <option>Other</option>
+            </select>
+            <span class="form-error" role="alert">Please select a country.</span>
+          </div>
+
+          <!-- ── Team & Traction ── -->
+          <div class="form-section-label">👥 Team &amp; Traction</div>
+
+          <div class="form-group">
+            <label for="team_size">
+              Team Size <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="team_size"
+              name="team_size"
+              class="form-control"
+              placeholder="e.g. 12"
+              required
+              min="1"
+              max="10000"
+            />
+            <span class="form-hint">Total full-time employees.</span>
+            <span class="form-error" role="alert">Please enter a valid team size (1–10,000).</span>
+          </div>
+
+          <div class="form-group">
+            <label for="startup_age">
+              Startup Age (months) <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="startup_age"
+              name="startup_age"
+              class="form-control"
+              placeholder="e.g. 24"
+              required
+              min="0"
+              max="600"
+            />
+            <span class="form-hint">Months since founding.</span>
+            <span class="form-error" role="alert">Please enter the startup age in months.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="founder_experience">
+              Founder Experience (years) <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="founder_experience"
+              name="founder_experience"
+              class="form-control"
+              placeholder="e.g. 8"
+              required
+              min="0"
+              max="60"
+            />
+            <span class="form-hint">Years of relevant industry experience.</span>
+            <span class="form-error" role="alert">Please enter founder experience.</span>
+          </div>
+
+          <!-- ── Financials ── -->
+          <div class="form-section-label">💰 Financials</div>
+
+          <div class="form-group">
+            <label for="funding_amount">
+              Total Funding ($) <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="funding_amount"
+              name="funding_amount"
+              class="form-control"
+              placeholder="e.g. 2500000"
+              required
+              min="0"
+            />
+            <span class="form-hint">Total capital raised to date (USD).</span>
+            <span class="form-error" role="alert">Please enter a valid funding amount.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="funding_rounds">
+              Funding Rounds <span class="required" aria-hidden="true">*</span>
+            </label>
+            <select id="funding_rounds" name="funding_rounds" class="form-control" required>
+              <option value="" disabled selected>Select round…</option>
+              <option value="0">Bootstrapped / Self-funded</option>
+              <option value="1">Pre-seed</option>
+              <option value="2">Seed</option>
+              <option value="3">Series A</option>
+              <option value="4">Series B</option>
+              <option value="5">Series C+</option>
+            </select>
+            <span class="form-error" role="alert">Please select a funding round.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="revenue">
+              Monthly Revenue ($) <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="revenue"
+              name="revenue"
+              class="form-control"
+              placeholder="e.g. 80000"
+              required
+              min="0"
+            />
+            <span class="form-hint">Current average monthly revenue (USD).</span>
+            <span class="form-error" role="alert">Please enter monthly revenue (0 if pre-revenue).</span>
+          </div>
+
+          <div class="form-group">
+            <label for="burn_rate">
+              Monthly Burn Rate ($) <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="burn_rate"
+              name="burn_rate"
+              class="form-control"
+              placeholder="e.g. 120000"
+              required
+              min="0"
+            />
+            <span class="form-hint">How much you spend per month (USD).</span>
+            <span class="form-error" role="alert">Please enter your burn rate.</span>
+          </div>
+
+          <!-- ── Market & Investors ── -->
+          <div class="form-section-label">🌍 Market &amp; Investors</div>
+
+          <div class="form-group">
+            <label for="market_size">
+              Market Size ($) <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="market_size"
+              name="market_size"
+              class="form-control"
+              placeholder="e.g. 50000000000"
+              required
+              min="0"
+            />
+            <span class="form-hint">Total Addressable Market in USD.</span>
+            <span class="form-error" role="alert">Please enter an estimated market size.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="investor_type">
+              Investor Type <span class="required" aria-hidden="true">*</span>
+            </label>
+            <select id="investor_type" name="investor_type" class="form-control" required>
+              <option value="" disabled selected>Select investor type…</option>
+              <option value="none">None / Bootstrapped</option>
+              <option value="angel">Angel Investor(s)</option>
+              <option value="seed_fund">Seed Fund / Accelerator</option>
+              <option value="vc">Venture Capital (VC)</option>
+              <option value="corporate">Corporate / Strategic</option>
+              <option value="pe">Private Equity</option>
+            </select>
+            <span class="form-error" role="alert">Please select an investor type.</span>
+          </div>
+
+        </div><!-- /form-grid -->
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-lg" id="predict-btn">
+            <span>🔮</span> Run AI Prediction
+          </button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">
+            ↺ Reset Form
+          </button>
+        </div>
+
+      </form>
+    </div><!-- /form-container -->
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 StartupInsight — <a href="{{ url_for('index') }}">Back to Home</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Loading overlay -->
+<div id="loading-overlay" class="loading-overlay" role="status" aria-live="polite" aria-label="Processing prediction">
+  <div class="spinner" aria-hidden="true"></div>
+  <p class="loading-text" id="loading-text">Analyzing your startup data…</p>
+  <p style="font-size:0.8rem;color:var(--text-muted)">This usually takes 2–4 seconds</p>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<script>window.SI_SERVICE_WORKER_URL = "{{ url_for('static', filename='service-worker.js') }}";</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>
+  // Cycle loading messages for engagement
+  const messages = [
+    'Analyzing your startup data…',
+    'Processing 47 signals…',
+    'Running ML models…',
+    'Calculating success probability…',
+    'Almost there…'
+  ];
+  let msgIdx = 0;
+  const overlay = document.getElementById('loading-overlay');
+  const loadingText = document.getElementById('loading-text');
+
+  const observer = new MutationObserver(() => {
+    if (overlay.classList.contains('active')) {
+      msgIdx = 0;
+      loadingText.textContent = messages[0];
+      const interval = setInterval(() => {
+        msgIdx = (msgIdx + 1) % messages.length;
+        loadingText.textContent = messages[msgIdx];
+        if (!overlay.classList.contains('active')) clearInterval(interval);
+      }, 700);
+    }
+  });
+  observer.observe(overlay, { attributes: true });
+</script>
+</body>
+</html>

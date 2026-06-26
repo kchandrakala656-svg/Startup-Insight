@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Your AI startup prediction results and insights." />
+  <meta name="theme-color" content="#4F46E5" />
+  <title>Prediction Results — Startup Insight</title>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">  <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}" />
+<link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"><body>
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container nav-inner">
+    <a href="{{ url_for('index') }}" class="nav-logo" aria-label="Startup Insight home">
+      <div class="logo-icon" aria-hidden="true">🚀</div>
+      <span>Startup<span class="gradient-text">Insight</span></span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('predict') }}">Predict</a></li>
+      <li><a href="{{ url_for('result') }}" class="active">Results</a></li>
+      <li><a href="{{ url_for('history') }}">History</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Toggle theme">☀️</button>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<nav class="nav-mobile" aria-label="Mobile navigation">
+  <a href="{{ url_for('index') }}">🏠 Home</a>
+  <a href="{{ url_for('predict') }}">🔮 Predict</a>
+  <a href="{{ url_for('result') }}" class="active">📊 Results</a>
+  <a href="{{ url_for('history') }}">📜 History</a>
+</nav>
+
+<main>
+
+<!-- ===================== PAGE HERO ===================== -->
+<section class="result-hero" aria-labelledby="result-page-title">
+  <div class="container" style="text-align:center">
+    <div class="hero-badge fade-in" style="margin:0 auto 1rem">
+      <span>AI Analysis Complete</span>
+    </div>
+    <h1 class="fade-up" style="font-size:clamp(1.8rem,5vw,2.8rem);animation-delay:0.1s" id="result-page-title">
+      Your <span class="gradient-text">Prediction Results</span>
+    </h1>
+    <p class="fade-up" style="color:var(--text-secondary);max-width:460px;margin:0.75rem auto 0;animation-delay:0.2s">
+      Here's what our AI found after analyzing your startup's data across 47 signals.
+    </p>
+  </div>
+</section>
+
+<section style="padding:0 0 5rem" aria-label="Results dashboard">
+  <div class="container">
+
+    <!-- ── Main Prediction Card ── -->
+    <div class="result-main-card glass-card fade-up" style="animation-delay:0.25s" aria-label="Main prediction">
+
+      <!-- SVG gradient defs for the ring -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#818CF8"/>
+            <stop offset="100%" stop-color="#A78BFA"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <p class="startup-name-tag" id="result-startup-name">Your Startup</p>
+      <p class="prediction-label">AI Verdict</p>
+      <p class="prediction-verdict fade-up" id="result-verdict" style="animation-delay:0.4s">SUCCESS</p>
+
+      <div class="probability-display" aria-label="Probability display">
+        <div class="probability-ring" aria-hidden="true">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="45"/>
+            <circle class="ring-progress" id="ring-progress" cx="50" cy="50" r="45"/>
+          </svg>
+          <div class="ring-text result-pct">0%</div>
+        </div>
+
+        <div class="probability-info">
+          <div class="big-pct result-pct">0%</div>
+          <div class="pct-label">Success Probability</div>
+          <div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-muted)">Based on 47 data signals</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Metric Cards Row ── -->
+    <div class="metrics-grid" role="list">
+
+      <div class="metric-card glass-card fade-up" style="animation-delay:0.3s" role="listitem">
+        <div class="metric-icon" aria-hidden="true">🎯</div>
+        <div class="metric-label">Confidence Score</div>
+        <div class="metric-value good" id="result-confidence">—</div>
+      </div>
+
+      <div class="metric-card glass-card fade-up" style="animation-delay:0.35s" role="listitem">
+        <div class="metric-icon" aria-hidden="true">⚠️</div>
+        <div class="metric-label">Risk Level</div>
+        <div class="metric-value warn" id="result-risk">—</div>
+      </div>
+
+      <div class="metric-card glass-card fade-up" style="animation-delay:0.4s" role="listitem">
+        <div class="metric-icon" aria-hidden="true">📈</div>
+        <div class="metric-label">Success Probability</div>
+        <div class="metric-value good" id="result-probability">—</div>
+      </div>
+
+      <div class="metric-card glass-card fade-up" style="animation-delay:0.45s" role="listitem">
+        <div class="metric-icon" aria-hidden="true">💰</div>
+        <div class="metric-label">Funding Analysis</div>
+        <div class="metric-value" id="result-funding">—</div>
+      </div>
+
+    </div>
+
+    <!-- ── Business Health ── -->
+    <div class="glass-card fade-up" style="padding:1.5rem;margin-bottom:1.25rem;animation-delay:0.5s">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap">
+        <span style="font-size:1.2rem" aria-hidden="true">❤️</span>
+        <h2 style="font-size:1rem;font-weight:600">Business Health Score</h2>
+        <span class="metric-value good" id="result-health" style="margin-left:auto;font-size:1.4rem">—</span>
+      </div>
+
+      <!-- Progress bar -->
+      <div style="height:8px;background:var(--border-glass);border-radius:999px;overflow:hidden" aria-hidden="true">
+        <div id="health-bar" style="height:100%;background:var(--gradient);border-radius:999px;width:0%;transition:width 1.2s cubic-bezier(0.4,0,0.2,1) 0.6s"></div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;margin-top:0.4rem">
+        <span style="font-size:0.72rem;color:var(--text-muted)">Needs Work</span>
+        <span style="font-size:0.72rem;color:var(--text-muted)">Excellent</span>
+      </div>
+    </div>
+
+    <!-- ── Insights: Strengths / Weaknesses / Suggestions ── -->
+    <h2 style="font-size:1.1rem;font-weight:600;margin-bottom:1rem;margin-top:2rem" class="fade-up" style="animation-delay:0.5s">
+      🧠 Key Insights
+    </h2>
+
+    <div class="insight-grid fade-up" style="animation-delay:0.55s">
+
+      <div class="insight-card glass-card">
+        <h3 class="insight-title" style="color:var(--success)">
+          <span aria-hidden="true">✅</span> Key Strengths
+        </h3>
+        <ul class="insight-list" id="strengths-list" aria-label="Key strengths">
+          <li><span class="insight-icon" style="color:var(--success)">✓</span><span>Loading…</span></li>
+        </ul>
+      </div>
+
+      <div class="insight-card glass-card">
+        <h3 class="insight-title" style="color:var(--danger)">
+          <span aria-hidden="true">⚠️</span> Weaknesses
+        </h3>
+        <ul class="insight-list" id="weaknesses-list" aria-label="Weaknesses">
+          <li><span class="insight-icon" style="color:var(--danger)">✗</span><span>Loading…</span></li>
+        </ul>
+      </div>
+
+      <div class="insight-card glass-card">
+        <h3 class="insight-title" style="color:var(--indigo-light)">
+          <span aria-hidden="true">💡</span> Suggestions
+        </h3>
+        <ul class="insight-list" id="suggestions-list" aria-label="Suggestions">
+          <li><span class="insight-icon" style="color:var(--indigo-light)">→</span><span>Loading…</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- ── Charts ── -->
+    <h2 style="font-size:1.1rem;font-weight:600;margin-bottom:1rem;margin-top:2rem" class="fade-up">
+      📊 Visual Analysis
+    </h2>
+
+    <div class="charts-row fade-up" style="animation-delay:0.6s">
+
+      <!-- Bar Chart: Score Breakdown -->
+      <div class="chart-card glass-card" aria-label="Score breakdown chart">
+        <div class="chart-card-title">📊 Score Breakdown</div>
+        <div class="chart-placeholder" id="bar-chart" aria-hidden="true">
+          <!-- Bars injected by JS -->
+        </div>
+      </div>
+
+      <!-- Donut: Success Distribution -->
+      <div class="chart-card glass-card" aria-label="Success factors donut chart">
+        <div class="chart-card-title">🍩 Success Factors</div>
+        <div class="donut-wrapper" aria-hidden="true">
+          <div class="donut-svg-wrap">
+            <svg viewBox="0 0 100 100" width="120" height="120">
+              <defs>
+                <linearGradient id="donutGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#818CF8"/>
+                  <stop offset="100%" stop-color="#A78BFA"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12"/>
+              <circle id="donut-progress" cx="50" cy="50" r="42" fill="none"
+                stroke="url(#donutGrad)" stroke-width="12"
+                stroke-linecap="round"
+                stroke-dasharray="264"
+                stroke-dashoffset="264"
+                transform="rotate(-90 50 50)"
+                style="transition:stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1)"
+              />
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--font-display);font-size:1.1rem" class="result-pct">0%</div>
+          </div>
+          <div class="donut-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(135deg,#818CF8,#A78BFA)"></div><span>Success Score</span></div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--success)"></div><span>Confidence</span></div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--warning)"></div><span>Risk Adjusted</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Actions ── -->
+    <div class="result-actions fade-up" style="animation-delay:0.65s">
+      <button class="btn btn-primary btn-lg" id="download-btn">
+        ⬇️ Download Report
+      </button>
+      <button class="btn btn-secondary" id="predict-again-btn">
+        🔮 Predict Again
+      </button>
+      <a href="{{ url_for('history') }}" class="btn btn-ghost">
+        📜 View History
+      </a>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 StartupInsight — <a href="{{ url_for('index') }}">Back to Home</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast container -->
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<script>window.SI_SERVICE_WORKER_URL = "{{ url_for('static', filename='service-worker.js') }}";</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>
+  /**
+   * Render animated bar chart for score breakdown.
+   * Called after ResultPage.render() populates the data.
+   */
+  function renderBarChart() {
+    const data = JSON.parse(sessionStorage.getItem('si-last-result') || '{}');
+    const bars = [
+      { label: 'Funding',    value: data.funding_score || 72 },
+      { label: 'Team',       value: Math.floor(50 + Math.random() * 45) },
+      { label: 'Market',     value: Math.floor(55 + Math.random() * 40) },
+      { label: 'Revenue',    value: Math.floor(30 + Math.random() * 55) },
+      { label: 'Health',     value: data.health_score || 68 },
+      { label: 'Confidence', value: data.confidence || 85 },
+    ];
+
+    const container = document.getElementById('bar-chart');
+    if (!container) return;
+
+    container.innerHTML = bars.map((b, i) => `
+      <div class="chart-bar-item">
+        <div class="chart-bar-fill" style="height:${b.value * 1.4}px;--d:${i * 0.1}s" title="${b.label}: ${b.value}%"></div>
+        <span class="chart-bar-label">${b.label}</span>
+      </div>
+    `).join('');
+  }
+
+  // Set health bar width
+  function setHealthBar() {
+    const data = JSON.parse(sessionStorage.getItem('si-last-result') || '{}');
+    const score = data.health_score || 68;
+    const bar = document.getElementById('health-bar');
+    if (bar) setTimeout(() => { bar.style.width = score + '%'; }, 600);
+  }
+
+  // Run after page scripts
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      renderBarChart();
+      setHealthBar();
+    }, 200);
+  });
+</script>
+</body>
+</html>

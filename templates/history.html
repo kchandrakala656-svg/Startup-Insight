@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="View and manage your past startup prediction history." />
+  <meta name="theme-color" content="#4F46E5" />
+  <title>Prediction History — Startup Insight</title>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">  <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}" />
+<link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"><body>
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container nav-inner">
+    <a href="{{ url_for('index') }}" class="nav-logo" aria-label="Startup Insight home">
+      <div class="logo-icon" aria-hidden="true">🚀</div>
+      <span>Startup<span class="gradient-text">Insight</span></span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('predict') }}">Predict</a></li>
+      <li><a href="{{ url_for('result') }}">Results</a></li>
+      <li><a href="{{ url_for('history') }}" class="active">History</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Toggle theme">☀️</button>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<nav class="nav-mobile" aria-label="Mobile navigation">
+  <a href="{{ url_for('index') }}">🏠 Home</a>
+  <a href="{{ url_for('predict') }}">🔮 Predict</a>
+  <a href="{{ url_for('result') }}">📊 Results</a>
+  <a href="{{ url_for('history') }}" class="active">📜 History</a>
+</nav>
+
+<main>
+
+<!-- ===================== PAGE HERO ===================== -->
+<section class="history-hero" aria-labelledby="history-page-title">
+  <div class="container" style="text-align:center">
+    <div class="hero-badge fade-in" style="margin:0 auto 1rem">
+      <span>Prediction Archive</span>
+    </div>
+    <h1 class="fade-up" style="font-size:clamp(1.8rem,5vw,2.8rem);animation-delay:0.1s" id="history-page-title">
+      Prediction <span class="gradient-text">History</span>
+    </h1>
+    <p class="fade-up" style="color:var(--text-secondary);max-width:440px;margin:0.75rem auto 0;animation-delay:0.2s">
+      Browse, search, and manage all your past AI predictions.
+    </p>
+  </div>
+</section>
+
+<section style="padding:0 0 5rem" aria-label="History dashboard">
+  <div class="container">
+
+    <!-- ── Summary Cards ── -->
+    <div class="stats-grid fade-up" style="animation-delay:0.25s;margin-bottom:1.75rem">
+      <div class="stat-card glass-card">
+        <span class="stat-card-value" id="total-count">0</span>
+        <span class="stat-card-label">Total Predictions</span>
+      </div>
+      <div class="stat-card glass-card">
+        <span class="stat-card-value" id="success-count" style="background:linear-gradient(135deg,#34D399,#10B981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">0</span>
+        <span class="stat-card-label">Successes</span>
+      </div>
+      <div class="stat-card glass-card">
+        <span class="stat-card-value" id="avg-prob">—</span>
+        <span class="stat-card-label">Avg. Probability</span>
+      </div>
+      <div class="stat-card glass-card">
+        <span class="stat-card-value" id="industries-count">0</span>
+        <span class="stat-card-label">Industries Tried</span>
+      </div>
+    </div>
+
+    <!-- ── Controls ── -->
+    <div class="history-controls fade-up" style="animation-delay:0.3s" role="search" aria-label="Filter predictions">
+      <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          id="history-search"
+          class="search-input"
+          placeholder="Search by name or industry…"
+          aria-label="Search predictions"
+        />
+      </div>
+
+      <select id="history-filter" class="filter-select" aria-label="Filter by outcome">
+        <option value="all">All Results</option>
+        <option value="success">✅ Success</option>
+        <option value="needs work">❌ Needs Work</option>
+      </select>
+
+      <button id="sort-btn" class="btn btn-ghost" aria-label="Reverse sort order">
+        ↕ Sort
+      </button>
+
+      <button id="clear-history-btn" class="btn btn-danger btn-sm" aria-label="Clear all history">
+        🗑 Clear All
+      </button>
+    </div>
+
+    <!-- ── Table Card ── -->
+    <div id="table-wrap">
+      <div class="table-card glass-card fade-up" style="animation-delay:0.35s">
+        <div class="table-header">
+          <span class="table-title">📋 All Predictions</span>
+          <span class="table-count" id="record-count">0 records</span>
+        </div>
+
+        <div class="table-responsive" role="region" aria-label="Predictions table" tabindex="0">
+          <table aria-label="Prediction history">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Startup Name</th>
+                <th scope="col">Industry</th>
+                <th scope="col">Prediction</th>
+                <th scope="col">Probability</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody">
+              <!-- Rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="pagination" role="navigation" aria-label="Pagination"></div>
+      </div>
+    </div>
+
+    <!-- ── Empty State ── -->
+    <div id="empty-state" class="glass-card fade-up" style="display:none;animation-delay:0.3s" aria-live="polite">
+      <div class="empty-state">
+        <!-- Inline SVG illustration -->
+        <div class="empty-icon" aria-hidden="true">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="22" cy="22" r="18" stroke="#4F46E5" stroke-width="2" stroke-dasharray="4 3" opacity="0.5"/>
+            <path d="M14 30 Q22 10 30 30" stroke="#818CF8" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <circle cx="22" cy="22" r="3" fill="#7C3AED"/>
+            <path d="M22 8v3M22 33v3M8 22h3M33 22h3" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+          </svg>
+        </div>
+
+        <h3 class="empty-title">No Predictions Yet</h3>
+        <p class="empty-desc">Run your first AI prediction to see your history here. It only takes a minute.</p>
+        <a href="{{ url_for('predict') }}" class="btn btn-primary" style="margin-top:0.5rem">
+          🔮 Run First Prediction
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 StartupInsight — <a href="{{ url_for('index') }}">Back to Home</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- FAB - New Prediction -->
+<a href="{{ url_for('predict') }}" class="fab" style="bottom:5.5rem" aria-label="New prediction" title="New Prediction">➕</a>
+
+<!-- Toast container -->
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+<script>window.SI_SERVICE_WORKER_URL = "{{ url_for('static', filename='service-worker.js') }}";</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>
+  /**
+   * Populate summary stat cards at top of history page.
+   * Runs after HistoryPage.init() in app.js.
+   */
+  document.addEventListener('DOMContentLoaded', () => {
+    const history = JSON.parse(localStorage.getItem('si-history') || '[]');
+
+    document.getElementById('total-count').textContent = history.length;
+
+    const successes = history.filter(r => r.prediction === 'SUCCESS').length;
+    document.getElementById('success-count').textContent = successes;
+
+    if (history.length) {
+      const avg = Math.round(history.reduce((s, r) => s + r.probability, 0) / history.length);
+      document.getElementById('avg-prob').textContent = avg + '%';
+    }
+
+    const industries = new Set(history.map(r => r.industry));
+    document.getElementById('industries-count').textContent = industries.size;
+  });
+</script>
+</body>
+</html>
