@@ -36,7 +36,7 @@ def index():
 
 
 @app.route("/predict", methods=["GET"])
-def predict_page():
+def predict():
     return render_template("predict.html")
 
 
@@ -46,7 +46,7 @@ def result():
 
 
 @app.route("/history")
-def history_page():
+def history():
     return render_template("history.html")
 
 
