@@ -263,7 +263,7 @@
 <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
 <script>window.SI_SERVICE_WORKER_URL = "{{ url_for('static', filename='service-worker.js') }}";</script>
-<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script src="{{ url_for('static', filename='app.js', v=2) }}"></script>
 <script>
   /**
    * Render animated bar chart for score breakdown.
