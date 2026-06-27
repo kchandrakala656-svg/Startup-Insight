@@ -1,9 +1,11 @@
+import os
 import joblib
 import pandas as pd
 
 # Load model + encoders
-model = joblib.load("model/model.pkl")
-encoders = joblib.load("model/encoder.pkl")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+model = joblib.load(os.path.join(BASE_DIR, "model", "model.pkl"))
+encoders = joblib.load(os.path.join(BASE_DIR, "model", "encoder.pkl"))
 
 
 # REQUIRED MODEL FEATURES (YOU MUST MATCH THIS WITH TRAINING)
@@ -42,12 +44,12 @@ def predict_startup(data):
             "founder_experience_years": int(data.get("founder_experience", 0)),
             "team_size": int(data.get("team_size", 0)),
             "market_size_billion": float(data.get("market_size", 0)) / 1e9,
-            "product_traction_users": 0,
+            "product_traction_users": int(data.get("product_traction_users", 0)),
             "burn_rate_million": float(data.get("burn_rate", 0)) / 1e6,
-            "revenue_million": float(data.get("revenue", 0)) / 1e6,
+            "revenue_million": float(data.get("revenue", 0)),
             "investor_type": data.get("investor_type", "none"),
             "sector": data.get("industry", "other"),
-            "founder_background": "unknown"
+            "founder_background": data.get("founder_background", "first_time")
         }
 
         df = pd.DataFrame([input_data])[FEATURE_COLUMNS]
@@ -69,6 +71,8 @@ def predict_startup(data):
         }
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         print("Prediction error:", e)
         return {
             "prediction": "Error",

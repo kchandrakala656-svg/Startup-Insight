@@ -120,22 +120,13 @@
             </label>
             <select id="industry" name="industry" class="form-control" required>
               <option value="" disabled selected>Select an industry…</option>
-              <option>Artificial Intelligence</option>
-              <option>FinTech</option>
-              <option>HealthTech</option>
-              <option>EdTech</option>
-              <option>E-Commerce</option>
-              <option>SaaS / B2B Software</option>
-              <option>Cybersecurity</option>
-              <option>CleanTech / Green Energy</option>
-              <option>AgriTech</option>
-              <option>LegalTech</option>
-              <option>PropTech / Real Estate</option>
-              <option>Media & Entertainment</option>
-              <option>Logistics & Supply Chain</option>
-              <option>Biotech / Life Sciences</option>
-              <option>Gaming</option>
-              <option>Other</option>
+              <option value="AI">Artificial Intelligence</option>
+              <option value="Fintech">FinTech</option>
+              <option value="Health">HealthTech</option>
+              <option value="SaaS">SaaS / B2B Software</option>
+              <option value="Ecommerce">E-Commerce</option>
+              <option value="Climate">CleanTech / Climate</option>
+              <option value="Crypto">Crypto</option>
             </select>
             <span class="form-error" role="alert">Please select an industry.</span>
           </div>
@@ -221,6 +212,37 @@
             />
             <span class="form-hint">Years of relevant industry experience.</span>
             <span class="form-error" role="alert">Please enter founder experience.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="founder_background">
+              Founder Background <span class="required" aria-hidden="true">*</span>
+            </label>
+            <select id="founder_background" name="founder_background" class="form-control" required>
+              <option value="" disabled selected>Select background…</option>
+              <option value="academic">Academic / Researcher</option>
+              <option value="first_time">First-time Founder</option>
+              <option value="ex_bigtech">Ex-Big Tech</option>
+              <option value="serial_founder">Serial Founder</option>
+            </select>
+            <span class="form-error" role="alert">Please select founder background.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="product_traction_users">
+              Product Traction (Users) <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="product_traction_users"
+              name="product_traction_users"
+              class="form-control"
+              placeholder="e.g. 50000"
+              required
+              min="0"
+            />
+            <span class="form-hint">Total number of users or customers.</span>
+            <span class="form-error" role="alert">Please enter total users.</span>
           </div>
 
           <!-- ── Financials ── -->
@@ -321,10 +343,8 @@
               <option value="" disabled selected>Select investor type…</option>
               <option value="none">None / Bootstrapped</option>
               <option value="angel">Angel Investor(s)</option>
-              <option value="seed_fund">Seed Fund / Accelerator</option>
-              <option value="vc">Venture Capital (VC)</option>
-              <option value="corporate">Corporate / Strategic</option>
-              <option value="pe">Private Equity</option>
+              <option value="tier2_vc">Tier 2 / Seed Fund</option>
+              <option value="tier1_vc">Tier 1 VC</option>
             </select>
             <span class="form-error" role="alert">Please select an investor type.</span>
           </div>

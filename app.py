@@ -54,7 +54,7 @@ def history():
 # PREDICTION API
 # =========================
 
-@app.route("/predict", methods=["POST"])
+@app.route("/api/predict", methods=["POST"])
 def predict_api():
     try:
         if predict_startup is None:

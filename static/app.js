@@ -332,23 +332,37 @@ const PredictForm = {
       // const result = await response.json();
 
     // Send request to Flask backend
-const response = await fetch("/predict", {
-    method: "POST",
-    headers: {
+    const response = await fetch("/api/predict", {
+      method: "POST",
+      headers: {
         "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-});
+      },
+      body: JSON.stringify(data)
+    });
 
-if (!response.ok) {
-    throw new Error("Prediction request failed");
-}
+    if (!response.ok) {
+      throw new Error("Prediction request failed");
+    }
 
-const result = await response.json();
+    const result = await response.json();
 
-this.saveToHistory(finalResult);
+    const finalResult = {
+      ...data,
+      prediction: result.prediction,
+      probability: result.probability || result.confidence,
+      confidence: result.confidence,
+      risk_level: result.risk_level,
+      funding_score: result.funding_score,
+      health_score: result.health_score,
+      strengths: result.strengths,
+      weaknesses: result.weaknesses,
+      suggestions: result.suggestions
+    };
 
-window.location.href = "/result";
+    this.saveToHistory(finalResult);
+    sessionStorage.setItem('si-last-result', JSON.stringify(finalResult));
+
+    window.location.href = "/result";
 
     } catch (err) {
       console.error('[PredictForm] Error:', err);
@@ -433,7 +447,8 @@ const ResultPage = {
     const verdict = document.getElementById('result-verdict');
     if (verdict) {
       verdict.textContent = d.prediction;
-      if (d.prediction !== 'SUCCESS') verdict.classList.add('fail');
+      const isSuccess = ['SUCCESS', 'IPO', 'Acquisition'].includes(d.prediction);
+      if (!isSuccess) verdict.classList.add('fail');
     }
 
     // Probability ring
@@ -556,8 +571,8 @@ const HistoryPage = {
         <td style="color:var(--text-primary);font-weight:600">${row.startup_name}</td>
         <td>${row.industry}</td>
         <td>
-          <span class="badge ${row.prediction === 'SUCCESS' ? 'badge-success' : 'badge-danger'}">
-            ${row.prediction === 'SUCCESS' ? '✓' : '✗'} ${row.prediction}
+          <span class="badge ${['SUCCESS', 'IPO', 'Acquisition'].includes(row.prediction) ? 'badge-success' : 'badge-danger'}">
+            ${['SUCCESS', 'IPO', 'Acquisition'].includes(row.prediction) ? '✓' : '✗'} ${row.prediction}
           </span>
         </td>
         <td style="color:var(--text-primary);font-weight:600">${row.probability}%</td>
